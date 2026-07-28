@@ -17,6 +17,16 @@ final class GroupNormalizerTest extends TestCase
         $this->normalizer = new GroupNormalizer();
     }
 
+    public function testItDistinguishesAbsentGroupDataFromTransparentGroupData(): void
+    {
+        static::assertFalse($this->normalizer->hasGroupData([
+            'legacy-default' => ['postid' => 12, 'columnWidth' => 'grid-md-12'],
+        ]));
+        static::assertTrue($this->normalizer->hasGroupData([
+            'explicit-transparent' => ['postid' => 12, 'background' => ''],
+        ]));
+    }
+
     public function testItPreservesRowsAndKeysAcrossSaveReloadCycle(): void
     {
         $rows = [

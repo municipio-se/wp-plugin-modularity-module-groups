@@ -31,7 +31,7 @@ final class LayoutProvider
         $contentHasSidebars = is_active_sidebar('left-sidebar') || is_active_sidebar('right-sidebar');
 
         foreach ($layout as $sidebar => $rows) {
-            if (!is_array($rows)) {
+            if (!is_array($rows) || !$this->normalizer->hasGroupData($rows)) {
                 continue;
             }
 

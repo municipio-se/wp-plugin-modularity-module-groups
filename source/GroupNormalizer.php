@@ -7,6 +7,24 @@ namespace MunicipioModularityModuleGroups;
 final class GroupNormalizer
 {
     /**
+     * A layout without the LTS field must remain a frontend no-op. Once any
+     * row carries the field, missing values inside that layout still normalize
+     * to transparent and participate in the established grouping contract.
+     *
+     * @param array<array-key, array<string, mixed>> $rows
+     */
+    public function hasGroupData(array $rows): bool
+    {
+        foreach ($rows as $row) {
+            if (array_key_exists('background', $row)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Group identity is deliberately implicit: adjacent rows with the same
      * normalized background form one group, matching the established LTS data
      * contract without introducing IDs or a migration.

@@ -8,6 +8,8 @@ use MunicipioModularityModuleGroups\Background;
 
 final class Renderer
 {
+    private const ASSET_VERSION = '0.1.5';
+
     /** @var array<string, int> */
     private array $indexes = [];
 
@@ -72,7 +74,16 @@ final class Renderer
 
     public function enqueueStyles(): void
     {
-        wp_enqueue_style('modularity-module-groups', MODULARITY_MODULE_GROUPS_URL . 'assets/frontend.css', [], '0.1.0');
+        /*
+         * Municipio removes every asset query parameter. Keep the version in
+         * the filename so frontend fixes still invalidate browser caches.
+         */
+        wp_enqueue_style(
+            'modularity-module-groups',
+            MODULARITY_MODULE_GROUPS_URL . 'assets/frontend.' . self::ASSET_VERSION . '.css',
+            [],
+            null,
+        );
     }
 
     /**

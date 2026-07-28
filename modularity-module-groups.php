@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Modularity Module Groups
  * Description: Adds module-group editing and full-width grouped rendering to modern Municipio.
- * Version: 0.1.0
+ * Version: 0.1.5
  * Requires PHP: 8.2
  * Author: Whitespace
  * License: MIT

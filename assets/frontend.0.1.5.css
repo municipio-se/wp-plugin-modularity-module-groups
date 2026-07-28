@@ -1,3 +1,12 @@
+.s-sidebar.o-grid:has(> .modularity-module-group) {
+  /*
+   * Current Municipio adds its standard row gap between every direct grid
+   * child. Group wrappers own that vertical rhythm, so leaving the parent gap
+   * visible exposes the sidebar background as a band between group colors.
+   */
+  gap: 0;
+}
+
 .modularity-module-group {
   --modularity-module-group-background: transparent;
   position: relative;

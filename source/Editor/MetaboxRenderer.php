@@ -71,9 +71,18 @@ final class MetaboxRenderer
                     </select>
                 </label>
             </div>
+            <?php
+
+            /*
+             * Municipio's asynchronous module loader targets sidebar areas that
+             * already expose data-area-id. The editor adapter restores that
+             * attribute after the loader has completed, preventing it from
+             * appending every sidebar module to every group.
+             */
+            ?>
             <ul
-                class="mmg-module-list modularity-js-droppable modularity-js-sortable"
-                data-area-id="<?php echo esc_attr($sidebar); ?>"
+                class="mmg-module-list modularity-sidebar-area modularity-js-droppable modularity-js-sortable"
+                data-mmg-area-id="<?php echo esc_attr($sidebar); ?>"
                 data-empty="<?php esc_attr_e(
                     'Drag modules here. Empty groups are removed automatically.',
                     'modularity-module-groups',
@@ -132,7 +141,11 @@ final class MetaboxRenderer
         >
             <span class="modularity-line-wrapper">
                 <span class="modularity-sortable-handle">
-                    <span class="material-symbols material-symbols-outlined" aria-hidden="true">drag_handle</span>
+                    <i
+                        style="top:4px;"
+                        class="modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                        aria-hidden="true"
+                    >drag_handle</i>
                 </span>
                 <span class="modularity-module-name">
                     <?php if ($postTypeLabel !== ''): ?>
@@ -150,7 +163,11 @@ final class MetaboxRenderer
                 </span>
                 <span class="modularity-module-actions">
                     <label class="modularity-module-columns">
-                        <span class="material-symbols material-symbols-outlined" aria-hidden="true">width</span>
+                        <i
+                            style="top:4px;"
+                            class="modularity-cmd-visibility-on modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                            aria-hidden="true"
+                        >width</i>
                         <select name="<?php echo esc_attr($rowName . '[columnWidth]'); ?>">
                             <?php foreach ($this->widthOptions() as $value => $label): ?>
                                 <option value="<?php echo esc_attr($value); ?>" <?php selected(
@@ -171,23 +188,44 @@ final class MetaboxRenderer
                             <?php checked($hidden); ?>
                             aria-label="<?php esc_attr_e('Visibility', 'modularity'); ?>"
                         >
-                        <span class="material-symbols material-symbols-outlined" aria-hidden="true">visibility</span>
+                        <i
+                            style="top:4px;"
+                            class="modularity-cmd-visibility-on modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                            aria-hidden="true"
+                        >visibility</i>
+                        <i
+                            style="top:4px;"
+                            class="modularity-cmd-visibility-off modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                            aria-hidden="true"
+                        >visibility_off</i>
                         <span class="label"><?php esc_html_e('Visibility', 'modularity'); ?></span>
                     </label>
                     <a href="<?php echo
                         esc_url($editUrl)
-                    ; ?>" class="modularity-js-thickbox-open modularity-err-resolver">
-                        <span class="material-symbols material-symbols-outlined" aria-hidden="true">edit</span>
+                    ; ?>" data-modularity-modal class="modularity-js-thickbox-open modularity-err-resolver">
+                        <i
+                            style="top:3px;"
+                            class="modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                            aria-hidden="true"
+                        >edit</i>
                         <span class="label"><?php esc_html_e('Edit', 'modularity'); ?></span>
                     </a>
                     <a href="<?php echo
                         esc_url($importUrl)
                     ; ?>" class="modularity-js-thickbox-import modularity-err-resolver">
-                        <span class="material-symbols material-symbols-outlined" aria-hidden="true">dataset_linked</span>
+                        <i
+                            style="top:4px;"
+                            class="modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                            aria-hidden="true"
+                        >dataset_linked</i>
                         <span class="label"><?php esc_html_e('Import', 'modularity'); ?></span>
                     </a>
                     <a href="#remove" class="modularity-module-remove modularity-err-resolver">
-                        <span class="material-symbols material-symbols-outlined" aria-hidden="true">delete</span>
+                        <i
+                            style="top:4px;"
+                            class="modularity-module-actions-symbol material-symbols material-symbols-rounded material-symbols-sharp material-symbols-outlined"
+                            aria-hidden="true"
+                        >delete</i>
                         <span class="label"><?php esc_html_e('Remove', 'modularity'); ?></span>
                     </a>
                 </span>

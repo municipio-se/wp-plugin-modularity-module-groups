@@ -6,6 +6,7 @@ namespace MunicipioModularityModuleGroups\Editor;
 
 final class Adapter
 {
+    private const ASSET_VERSION = '0.1.4';
     private const UNSUPPORTED_SIDEBARS = ['left-sidebar', 'right-sidebar'];
 
     public function __construct(
@@ -59,19 +60,23 @@ final class Adapter
             return;
         }
 
-        wp_enqueue_style(
-            'modularity-module-groups-editor',
-            MODULARITY_MODULE_GROUPS_URL . 'assets/editor.css',
-            [],
-            '0.1.0',
-        );
+        wp_enqueue_style('modularity-module-groups-editor', $this->assetUrl('css'), [], null);
         wp_enqueue_script(
             'modularity-module-groups-editor',
-            MODULARITY_MODULE_GROUPS_URL . 'assets/editor.js',
+            $this->assetUrl('js'),
             ['jquery', 'jquery-ui-droppable', 'jquery-ui-sortable'],
-            '0.1.0',
+            null,
             true,
         );
+    }
+
+    private function assetUrl(string $extension): string
+    {
+        /*
+         * Municipio removes every asset query parameter. Keep the version in
+         * the filename so editor fixes still invalidate browser caches.
+         */
+        return MODULARITY_MODULE_GROUPS_URL . 'assets/editor.' . self::ASSET_VERSION . '.' . $extension;
     }
 
     public function renderCompatibilityNotice(): void

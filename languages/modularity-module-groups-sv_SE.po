@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Modularity Module Groups 0.1.5\n"
+"PO-Revision-Date: 2026-07-28 22:00+0200\n"
+"Last-Translator: Whitespace\n"
+"Language-Team: Swedish\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "(Deactivated module)"
+msgstr "(Avaktiverad modul)"
+
+msgid "Add group"
+msgstr "Lägg till grupp"
+
+msgid "Background color"
+msgstr "Bakgrundsfärg"
+
+msgid "Background:"
+msgstr "Bakgrund:"
+
+msgid "Card color"
+msgstr "Kortfärg"
+
+msgid "Complementary color"
+msgstr "Komplementärfärg"
+
+msgid "Drag modules here. Empty groups are removed automatically."
+msgstr "Dra moduler hit. Tomma grupper tas bort automatiskt."
+
+msgid "Modularity Module Groups has disabled its group editor because Municipio %1$s is installed. The verified editor adapter supports %2$s. Saved module data has not been changed."
+msgstr "Modularity Module Groups har stängt av gruppeditorn eftersom Municipio %1$s är installerat. Den verifierade editoradaptern stöder %2$s. Sparad moduldata har inte ändrats."
+
+msgid "Move group"
+msgstr "Flytta grupp"
+
+msgid "Neutral color"
+msgstr "Neutral färg"
+
+msgid "No background"
+msgstr "Ingen bakgrund"
+
+msgid "Secondary color"
+msgstr "Sekundärfärg"
+
+msgid "White"
+msgstr "Vit"
+
+msgid "unknown"
+msgstr "okänd"
+
+msgid "widgets"
+msgstr "widgetar"

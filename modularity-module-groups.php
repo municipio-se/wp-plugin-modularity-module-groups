@@ -18,6 +18,7 @@ if (!defined('ABSPATH')) {
 
 define('MODULARITY_MODULE_GROUPS_PATH', plugin_dir_path(__FILE__));
 define('MODULARITY_MODULE_GROUPS_URL', plugin_dir_url(__FILE__));
+define('MODULARITY_MODULE_GROUPS_FILE', __FILE__);
 
 $autoload = MODULARITY_MODULE_GROUPS_PATH . 'vendor/autoload.php';
 

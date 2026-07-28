@@ -52,9 +52,16 @@
       return;
     }
 
+    list.dataset.areaId = list.dataset.mmgAreaId;
+
+    const moduleList = $(list);
+    if (!moduleList.sortable("instance") || !moduleList.droppable("instance")) {
+      return;
+    }
+
+    moduleList.sortable("refresh");
+    moduleList.droppable("option", "disabled", false);
     list.dataset.mmgInitialized = "true";
-    $(list).sortable("refresh");
-    $(list).droppable("option", "disabled", false);
     syncGroup(group);
   };
 
@@ -67,6 +74,40 @@
 
     dragAndDrop.setupSortable();
     dragAndDrop.setupDroppable();
+  };
+
+  const restoreSidebarAreaIds = () => {
+    document.querySelectorAll("[data-mmg-area-id]").forEach((list) => {
+      list.dataset.areaId = list.dataset.mmgAreaId;
+    });
+  };
+
+  const afterNativeModuleLoad = (callback) => {
+    const loadingField = document.querySelector(
+      '[name="modularity-option-page-loading"]',
+    );
+
+    if (!loadingField) {
+      callback();
+      return;
+    }
+
+    const handleAjaxComplete = (_event, _request, settings) => {
+      const requestData = settings?.data;
+      const loadsModules =
+        requestData?.action === "get_post_modules" ||
+        (typeof requestData === "string" &&
+          requestData.includes("action=get_post_modules"));
+
+      if (!loadsModules) {
+        return;
+      }
+
+      $(document).off("ajaxComplete.mmgModuleGroups", handleAjaxComplete);
+      callback();
+    };
+
+    $(document).on("ajaxComplete.mmgModuleGroups", handleAjaxComplete);
   };
 
   const initializeEditor = (root) => {
@@ -83,6 +124,11 @@
       items: "> .mmg-group",
       placeholder: "mmg-group--placeholder",
     });
+
+    // The replacement metabox is rendered after Modularity registered its
+    // editor lifecycle, so initialize its public drag-and-drop adapter before
+    // refreshing the newly introduced lists.
+    initializeNativeDragAndDrop();
 
     groups.querySelectorAll(".mmg-group").forEach((group) => {
       initializeGroup(root, group);
@@ -125,6 +171,9 @@
   };
 
   $(() => {
-    document.querySelectorAll(".mmg-editor").forEach(initializeEditor);
+    afterNativeModuleLoad(() => {
+      restoreSidebarAreaIds();
+      document.querySelectorAll(".mmg-editor").forEach(initializeEditor);
+    });
   });
 })(jQuery);

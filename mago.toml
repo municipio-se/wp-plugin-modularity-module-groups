@@ -1,0 +1,16 @@
+php-version = "8.2"
+
+[source]
+paths = ["modularity-module-groups.php", "source", "tests"]
+
+[formatter]
+print-width = 120
+
+[linter]
+integrations = ["phpunit"]
+
+[linter.rules]
+literal-named-argument = { enabled = false }
+no-global = { level = "warning" }
+cyclomatic-complexity = { level = "warning" }
+kan-defect = { level = "warning" }

@@ -1,0 +1,64 @@
+.mmg-editor {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.mmg-groups,
+.mmg-module-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.mmg-group {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid #dcdcde;
+  border-radius: 0.25rem;
+  background: #f6f7f7;
+}
+
+.mmg-group__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mmg-group__header label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mmg-group__handle {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #646970;
+  cursor: move;
+}
+
+.mmg-module-list:empty::before {
+  content: attr(data-empty);
+  padding: 0.75rem;
+  border: 1px dashed #a7aaad;
+  color: #646970;
+  text-align: center;
+}
+
+.mmg-actions {
+  margin: 0;
+  text-align: end;
+}
+
+.mmg-group--placeholder {
+  min-height: 5rem;
+  border: 1px dashed #2271b1;
+  background: #f0f6fc;
+}

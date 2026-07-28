@@ -1,0 +1,132 @@
+.modularity-module-group {
+  --modularity-module-group-background: transparent;
+  position: relative;
+  grid-column: 1 / -1;
+  padding-block: var(--modularity-module-group-padding-start, 0)
+    var(--modularity-module-group-padding-end, 0);
+}
+
+.modularity-module-group::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  width: calc(100vw - var(--scrollbar, 0px));
+  transform: translateX(-50%);
+  background: var(--modularity-module-group-background);
+  pointer-events: none;
+}
+
+.modularity-module-group__grid {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+.modularity-module-group--complementary {
+  --modularity-module-group-background: var(
+    --color-complementary,
+    var(--color-background-complementary, transparent)
+  );
+  --color-background-card: var(--color-white, #fff);
+  --color-layer-dark: var(--color-white, #fff);
+  --color-layer: var(--color-white, #fff);
+  --color-layer-light: var(--color-white, #fff);
+  --color-layer-lighter: var(--color-white, #fff);
+}
+
+.modularity-module-group--secondary {
+  --modularity-module-group-background: var(--color-secondary, transparent);
+  --color-background-card: var(--color-white, #fff);
+  --color-layer-dark: var(--color-white, #fff);
+  --color-layer: var(--color-white, #fff);
+  --color-layer-light: var(--color-white, #fff);
+  --color-layer-lighter: var(--color-white, #fff);
+}
+
+.modularity-module-group--white {
+  --modularity-module-group-background: var(--color-white, #fff);
+}
+
+.modularity-module-group--neutral {
+  --modularity-module-group-background: var(--color-light, #f5f5f5);
+  --color-background-card: var(--color-white, #fff);
+  --color-layer-dark: var(--color-white, #fff);
+  --color-layer: var(--color-white, #fff);
+  --color-layer-light: var(--color-white, #fff);
+  --color-layer-lighter: var(--color-white, #fff);
+}
+
+.modularity-module-group--card {
+  --modularity-module-group-background: var(
+    --color-background-card,
+    var(--color-white, #fff)
+  );
+}
+
+.modularity-module-group--card .modularity-module-group__grid {
+  --color-background-card: var(--color-background, transparent);
+  --color-layer-dark: var(--color-background, transparent);
+  --color-layer: var(--color-background, transparent);
+  --color-layer-light: var(--color-background, transparent);
+  --color-layer-lighter: var(--color-background, transparent);
+}
+
+.modularity-module-group--background {
+  --modularity-module-group-background: var(--color-background, transparent);
+  --color-layer-dark: var(--color-background, transparent);
+  --color-layer: var(--color-background, transparent);
+  --color-layer-light: var(--color-background, transparent);
+  --color-layer-lighter: var(--color-background, transparent);
+}
+
+.modularity-module-group:not(
+    .modularity-module-group--transparent:first-child
+  ) {
+  --modularity-module-group-padding-start: calc(
+    var(--base, 8px) * var(--o-grid-gap, 4) * 0.5
+  );
+}
+
+.modularity-module-group:not(.modularity-module-group--transparent:last-child) {
+  --modularity-module-group-padding-end: calc(
+    var(--base, 8px) * var(--o-grid-gap, 4) * 0.5
+  );
+}
+
+@media (min-width: 56em) {
+  .modularity-module-group:not(
+      .modularity-module-group--transparent:first-child
+    ) {
+    --modularity-module-group-padding-start: calc(
+      var(--base, 8px) * var(--o-grid-gap, 4) * 0.75
+    );
+  }
+
+  .modularity-module-group:not(
+      .modularity-module-group--transparent:last-child
+    ) {
+    --modularity-module-group-padding-end: calc(
+      var(--base, 8px) * var(--o-grid-gap, 4) * 0.75
+    );
+  }
+}
+
+@media (min-width: 78em) {
+  .modularity-module-group:not(
+      .modularity-module-group--transparent:first-child
+    ) {
+    --modularity-module-group-padding-start: calc(
+      var(--base, 8px) * var(--o-grid-gap, 4)
+    );
+  }
+
+  .modularity-module-group:not(
+      .modularity-module-group--transparent:last-child
+    ) {
+    --modularity-module-group-padding-end: calc(
+      var(--base, 8px) * var(--o-grid-gap, 4)
+    );
+  }
+}

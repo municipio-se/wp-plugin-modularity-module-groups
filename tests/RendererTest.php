@@ -20,11 +20,11 @@ final class RendererTest extends TestCase
             ['postid' => 51, 'background' => 'transparent', 'opens' => false, 'closes' => false],
             ['postid' => 11_049, 'background' => 'transparent', 'opens' => false, 'closes' => true],
             ['postid' => 65, 'background' => 'neutral', 'opens' => true, 'closes' => true],
-            ['postid' => 11_049, 'background' => 'transparent', 'opens' => true, 'closes' => false],
-            ['postid' => 11_229, 'background' => 'transparent', 'opens' => false, 'closes' => false],
-            ['postid' => 11_049, 'background' => 'transparent', 'opens' => false, 'closes' => true],
-            ['postid' => 11_238, 'background' => 'neutral', 'opens' => true, 'closes' => true],
-            ['postid' => 84, 'background' => 'transparent', 'opens' => true, 'closes' => true],
+            ['postid' => 11_049, 'background' => 'card', 'opens' => true, 'closes' => false],
+            ['postid' => 11_229, 'background' => 'card', 'opens' => false, 'closes' => false],
+            ['postid' => 11_049, 'background' => 'card', 'opens' => false, 'closes' => true],
+            ['postid' => 11_238, 'background' => 'transparent', 'opens' => true, 'closes' => false],
+            ['postid' => 84, 'background' => 'transparent', 'opens' => false, 'closes' => true],
         ];
         $moduleIds = [53, 51, 11_049, 65, 11_049, 11_229, 11_049, 11_238, 84];
         $cache = [];
@@ -33,8 +33,8 @@ final class RendererTest extends TestCase
         $warmHtml = $this->renderWithFragmentCache($this->renderer($plan), $moduleIds, $cache);
 
         static::assertSame($coldHtml, $warmHtml);
-        static::assertSame(5, substr_count($warmHtml, 'class="modularity-module-group '));
-        static::assertSame(5, substr_count($warmHtml, '</div></div>'));
+        static::assertSame(4, substr_count($warmHtml, 'class="modularity-module-group '));
+        static::assertSame(4, substr_count($warmHtml, '</div></div>'));
         static::assertSame(9, substr_count($warmHtml, '<module '));
     }
 

@@ -8,7 +8,9 @@ use Composer\InstalledVersions;
 
 final class Compatibility
 {
-    public const SUPPORTED_MUNICIPIO_VERSION = '6.43.2';
+    public const MINIMUM_MUNICIPIO_VERSION = '6.43.2';
+    public const MAXIMUM_MUNICIPIO_VERSION = '6.44.0';
+    public const SUPPORTED_MUNICIPIO_VERSIONS = '>=6.43.2 <6.44.0';
 
     public function installedVersion(): ?string
     {
@@ -34,8 +36,14 @@ final class Compatibility
             return false;
         }
 
-        $normalized = ltrim($version, 'v');
+        $normalized = preg_replace('/^v/', '', $version);
+        if ($normalized === null || preg_match('/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/', $normalized) !== 1) {
+            return false;
+        }
 
-        return version_compare($normalized, self::SUPPORTED_MUNICIPIO_VERSION, '==');
+        return (
+            version_compare($normalized, self::MINIMUM_MUNICIPIO_VERSION, '>=')
+            && version_compare($normalized, self::MAXIMUM_MUNICIPIO_VERSION, '<')
+        );
     }
 }

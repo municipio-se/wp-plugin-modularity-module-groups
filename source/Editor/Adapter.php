@@ -98,7 +98,7 @@ final class Adapter
                 'modularity-module-groups',
             ),
             $installed,
-            Compatibility::SUPPORTED_MUNICIPIO_VERSION,
+            Compatibility::SUPPORTED_MUNICIPIO_VERSIONS,
         );
 
         echo '<div class="notice notice-warning"><p>' . esc_html($message) . '</p></div>';

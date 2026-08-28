@@ -66,6 +66,13 @@
   };
 
   const initializeNativeDragAndDrop = () => {
+    document.querySelectorAll(".modularity-js-draggable").forEach((module) => {
+      if (!module.dataset.sidebarIncompability?.trim()) {
+        // Municipio parses this legacy attribute as JSON when dragging starts.
+        module.dataset.sidebarIncompability = "[]";
+      }
+    });
+
     const dragAndDrop = window.Modularity?.Editor?.DragAndDrop;
 
     if (!dragAndDrop) {

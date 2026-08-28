@@ -4,11 +4,11 @@ const { test } = require("node:test");
 const vm = require("node:vm");
 
 const source = readFileSync(
-  require.resolve("../assets/editor.0.1.7.js"),
+  require.resolve("../assets/editor.0.1.8.js"),
   "utf8",
 );
 const styles = readFileSync(
-  require.resolve("../assets/editor.0.1.5.css"),
+  require.resolve("../assets/editor.0.1.6.css"),
   "utf8",
 );
 
@@ -18,6 +18,10 @@ const createHarness = ({ loading = false } = {}) => {
   const observers = [];
   const addButtonListeners = [];
   const appendedGroups = [];
+  const draggableModules = [
+    { dataset: { sidebarIncompability: "" } },
+    { dataset: { sidebarIncompability: '["main-content"]' } },
+  ];
   let groupSortableOptions;
   const loadingField = loading ? { isConnected: true } : null;
 
@@ -64,7 +68,10 @@ const createHarness = ({ loading = false } = {}) => {
         : null;
     },
     querySelectorAll(selector) {
-      return selector === ".mmg-editor" ? [editor] : [];
+      return {
+        ".mmg-editor": [editor],
+        ".modularity-js-draggable": draggableModules,
+      }[selector] ?? [];
     },
   };
 
@@ -125,6 +132,7 @@ const createHarness = ({ loading = false } = {}) => {
     addButtonListeners,
     appendedGroups,
     documentEvents,
+    draggableModules,
     get groupSortableOptions() {
       return groupSortableOptions;
     },
@@ -155,6 +163,26 @@ test("keeps module drag handles at the Municipio row width", () => {
   assert.match(
     styles,
     /\.mmg-editor \.modularity-sortable-handle\.ui-sortable-handle\s*{[^}]*flex: 0 0 50px;[^}]*inline-size: 50px;/s,
+  );
+});
+
+test("keeps empty module groups large enough to receive a drop", () => {
+  assert.match(
+    styles,
+    /\.mmg-editor \.mmg-module-list:empty\s*{[^}]*min-block-size: 100px;/s,
+  );
+});
+
+test("normalizes empty compatibility metadata before dragging", () => {
+  const harness = createHarness();
+
+  assert.equal(
+    harness.draggableModules[0].dataset.sidebarIncompability,
+    "[]",
+  );
+  assert.equal(
+    harness.draggableModules[1].dataset.sidebarIncompability,
+    '["main-content"]',
   );
 });
 

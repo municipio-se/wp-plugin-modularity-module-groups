@@ -10,8 +10,9 @@
   margin: 0;
 }
 
-.mmg-editor .mmg-module-list {
-  min-height: 0;
+.mmg-editor .mmg-module-list:empty {
+  /* jQuery UI measures the target at drag start, so an empty list needs a hit area. */
+  min-block-size: 100px;
 }
 
 /*

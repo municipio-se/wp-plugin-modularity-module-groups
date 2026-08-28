@@ -14,6 +14,16 @@
   min-height: 0;
 }
 
+/*
+ * Municipio's 6.43 editor rows are 50px high and derive the handle width from
+ * height: 100% plus aspect-ratio. Firefox does not transfer that percentage
+ * height into the flex item's inline size, so pin the verified row dimension.
+ */
+.mmg-editor .modularity-sortable-handle.ui-sortable-handle {
+  flex: 0 0 50px;
+  inline-size: 50px;
+}
+
 .mmg-group {
   display: grid;
   gap: 0.5rem;

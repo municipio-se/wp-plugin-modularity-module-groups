@@ -7,6 +7,10 @@ const source = readFileSync(
   require.resolve("../assets/editor.0.1.7.js"),
   "utf8",
 );
+const styles = readFileSync(
+  require.resolve("../assets/editor.0.1.5.css"),
+  "utf8",
+);
 
 const createHarness = ({ loading = false } = {}) => {
   const readyCallbacks = [];
@@ -145,6 +149,13 @@ test("allows the group button handle to start sorting", () => {
     "input, textarea, select, option",
   );
   assert.equal(harness.groupSortableOptions.handle, ".mmg-group__handle");
+});
+
+test("keeps module drag handles at the Municipio row width", () => {
+  assert.match(
+    styles,
+    /\.mmg-editor \.modularity-sortable-handle\.ui-sortable-handle\s*{[^}]*flex: 0 0 50px;[^}]*inline-size: 50px;/s,
+  );
 });
 
 test("initializes when the native loading marker disappears", () => {

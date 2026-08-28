@@ -141,6 +141,9 @@
     }
 
     $(groups).sortable({
+      // jQuery UI's mouse widget cancels interactions from buttons by default.
+      // Keep form controls protected while allowing the dedicated button handle.
+      cancel: "input, textarea, select, option",
       handle: ".mmg-group__handle",
       items: "> .mmg-group",
       placeholder: "mmg-group--placeholder",

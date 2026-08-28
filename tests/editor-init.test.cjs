@@ -4,7 +4,7 @@ const { test } = require("node:test");
 const vm = require("node:vm");
 
 const source = readFileSync(
-  require.resolve("../assets/editor.0.1.6.js"),
+  require.resolve("../assets/editor.0.1.7.js"),
   "utf8",
 );
 
@@ -14,6 +14,7 @@ const createHarness = ({ loading = false } = {}) => {
   const observers = [];
   const addButtonListeners = [];
   const appendedGroups = [];
+  let groupSortableOptions;
   const loadingField = loading ? { isConnected: true } : null;
 
   const addButton = {
@@ -81,7 +82,11 @@ const createHarness = ({ loading = false } = {}) => {
         documentEvents.set(event, callback);
         return this;
       },
-      sortable() {
+      sortable(options) {
+        if (target === groups && options) {
+          groupSortableOptions = options;
+        }
+
         return this;
       },
     };
@@ -116,6 +121,9 @@ const createHarness = ({ loading = false } = {}) => {
     addButtonListeners,
     appendedGroups,
     documentEvents,
+    get groupSortableOptions() {
+      return groupSortableOptions;
+    },
     loadingField,
     observers,
   };
@@ -127,6 +135,16 @@ test("initializes immediately when native loading already finished", () => {
   assert.equal(harness.addButtonListeners.length, 1);
   harness.addButtonListeners[0]();
   assert.equal(harness.appendedGroups.length, 1);
+});
+
+test("allows the group button handle to start sorting", () => {
+  const harness = createHarness();
+
+  assert.equal(
+    harness.groupSortableOptions.cancel,
+    "input, textarea, select, option",
+  );
+  assert.equal(harness.groupSortableOptions.handle, ".mmg-group__handle");
 });
 
 test("initializes when the native loading marker disappears", () => {

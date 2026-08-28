@@ -104,7 +104,20 @@ final class MetaboxRenderer
         $post = $postId > 0 ? get_post($postId) : null;
         $postType = $post instanceof \WP_Post ? $post->post_type : '';
         $available = \Modularity\ModuleManager::$available ?? [];
-        $postTypeLabel = $postType !== '' ? $available[$postType]['labels']['name'] ?? $postType : '';
+        $moduleSpecification = is_array($available[$postType] ?? null) ? $available[$postType] : [];
+        $moduleSpecification = apply_filters('Modularity/Editor/SidebarIncompability', $moduleSpecification, $postType);
+        $moduleSpecification = is_array($moduleSpecification) ? $moduleSpecification : [];
+        /*
+         * Municipio parses this legacy, misspelled attribute as JSON at drag
+         * start. An empty string or a missing attribute throws before its
+         * compatibility highlighting can run, so unrestricted modules use [].
+         */
+        $sidebarIncompatibility = is_array($moduleSpecification['sidebar_incompability'] ?? null)
+            ? array_values($moduleSpecification['sidebar_incompability'])
+            : [];
+        $sidebarIncompatibilityJson = wp_json_encode($sidebarIncompatibility);
+        $sidebarIncompatibilityJson = is_string($sidebarIncompatibilityJson) ? $sidebarIncompatibilityJson : '[]';
+        $postTypeLabel = $postType !== '' ? $moduleSpecification['labels']['name'] ?? $postType : '';
         $postTitle = $post instanceof \WP_Post ? $post->post_title : '';
         $columnWidth = is_string($row['columnWidth'] ?? null) ? $row['columnWidth'] : '';
         $hidden = in_array($row['hidden'] ?? false, [true, 1, '1', 'true', 'hidden'], true);
@@ -138,6 +151,7 @@ final class MetaboxRenderer
             id="post-<?php echo esc_attr((string) $postId); ?>"
             data-module-id="<?php echo esc_attr($postType); ?>"
             data-module-stored-width="<?php echo esc_attr($columnWidth); ?>"
+            data-sidebar-incompability="<?php echo esc_attr($sidebarIncompatibilityJson); ?>"
         >
             <span class="modularity-line-wrapper">
                 <span class="modularity-sortable-handle">

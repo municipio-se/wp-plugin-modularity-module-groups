@@ -6,7 +6,10 @@ namespace MunicipioModularityModuleGroups\Editor;
 
 final class Adapter
 {
-    private const ASSET_VERSION = '0.1.4';
+    private const ASSET_VERSIONS = [
+        'css' => '0.1.4',
+        'js' => '0.1.6',
+    ];
     private const UNSUPPORTED_SIDEBARS = ['left-sidebar', 'right-sidebar'];
 
     public function __construct(
@@ -76,7 +79,7 @@ final class Adapter
          * Municipio removes every asset query parameter. Keep the version in
          * the filename so editor fixes still invalidate browser caches.
          */
-        return MODULARITY_MODULE_GROUPS_URL . 'assets/editor.' . self::ASSET_VERSION . '.' . $extension;
+        return MODULARITY_MODULE_GROUPS_URL . 'assets/editor.' . self::ASSET_VERSIONS[$extension] . '.' . $extension;
     }
 
     public function renderCompatibilityNotice(): void

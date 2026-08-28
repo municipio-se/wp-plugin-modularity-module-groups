@@ -20,6 +20,11 @@ The editor integration is intentionally disabled outside the verified Municipio
 6.43 patch range. In that case the original Modularity editor remains active,
 an admin notice explains the incompatibility, and saved data remains untouched.
 
+Frontend group boundaries are part of Modularity's fragment-cache context.
+This keeps wrappers tied to each placed row when the same module post is reused
+in several groups. Municipio versions without that cache-context contract fall
+back to disabled fragment caching only on pages that contain grouped layouts.
+
 ## Development
 
 ```console

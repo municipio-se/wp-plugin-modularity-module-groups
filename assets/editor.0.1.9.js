@@ -201,6 +201,19 @@
 
   $(() => {
     afterNativeModuleLoad(() => {
+      // Municipio highlights two ancestors above each module list, which is
+      // our group list rather than its usual metabox. Its native stop handler
+      // only clears metaboxes, leaving an overlay that intercepts later clicks.
+      // Listen on document because palette drags can end outside the editor.
+      $(document).on(
+        "dragstop.mmgModuleGroups sortstop.mmgModuleGroups",
+        () => {
+          $(".mmg-editor .modularity-incompatible-area").removeClass(
+            "modularity-incompatible-area",
+          );
+        },
+      );
+
       restoreSidebarAreaIds();
       document.querySelectorAll(".mmg-editor").forEach(initializeEditor);
     });

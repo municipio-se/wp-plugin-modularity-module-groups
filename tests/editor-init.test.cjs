@@ -4,7 +4,7 @@ const { test } = require("node:test");
 const vm = require("node:vm");
 
 const source = readFileSync(
-  require.resolve("../assets/editor.0.1.8.js"),
+  require.resolve("../assets/editor.0.1.9.js"),
   "utf8",
 );
 const styles = readFileSync(
@@ -18,6 +18,7 @@ const createHarness = ({ loading = false } = {}) => {
   const observers = [];
   const addButtonListeners = [];
   const appendedGroups = [];
+  const blockedGroups = new Set();
   const draggableModules = [
     { dataset: { sidebarIncompability: "" } },
     { dataset: { sidebarIncompability: '["main-content"]' } },
@@ -68,10 +69,12 @@ const createHarness = ({ loading = false } = {}) => {
         : null;
     },
     querySelectorAll(selector) {
-      return {
-        ".mmg-editor": [editor],
-        ".modularity-js-draggable": draggableModules,
-      }[selector] ?? [];
+      return (
+        {
+          ".mmg-editor": [editor],
+          ".modularity-js-draggable": draggableModules,
+        }[selector] ?? []
+      );
     },
   };
 
@@ -90,7 +93,17 @@ const createHarness = ({ loading = false } = {}) => {
         return this;
       },
       on(event, callback) {
-        documentEvents.set(event, callback);
+        for (const name of event.split(" ")) {
+          documentEvents.set(name, callback);
+        }
+        return this;
+      },
+      removeClass(name) {
+        if (target === ".mmg-editor .modularity-incompatible-area") {
+          for (const classes of blockedGroups) {
+            classes.delete(name);
+          }
+        }
         return this;
       },
       sortable(options) {
@@ -131,6 +144,7 @@ const createHarness = ({ loading = false } = {}) => {
   return {
     addButtonListeners,
     appendedGroups,
+    blockedGroups,
     documentEvents,
     draggableModules,
     get groupSortableOptions() {
@@ -148,6 +162,32 @@ test("initializes immediately when native loading already finished", () => {
   harness.addButtonListeners[0]();
   assert.equal(harness.appendedGroups.length, 1);
 });
+
+for (const event of ["dragstop", "sortstop"]) {
+  test(`${event} clears blocked groups even when released outside the editor`, () => {
+    const harness = createHarness();
+    const first = new Set(["modularity-incompatible-area", "mmg-groups"]);
+    const second = new Set(["modularity-incompatible-area", "mmg-groups"]);
+    harness.blockedGroups.add(first);
+    harness.blockedGroups.add(second);
+    const originalRestrictions =
+      harness.draggableModules[1].dataset.sidebarIncompability;
+
+    harness.documentEvents.get(`${event}.mmgModuleGroups`)({ target: {} });
+
+    assert.deepEqual([...first], ["mmg-groups"]);
+    assert.deepEqual([...second], ["mmg-groups"]);
+    assert.equal(
+      harness.draggableModules[1].dataset.sidebarIncompability,
+      originalRestrictions,
+    );
+
+    // A later invalid drag must also recover, without reinitializing the editor.
+    first.add("modularity-incompatible-area");
+    harness.documentEvents.get(`${event}.mmgModuleGroups`)({ target: {} });
+    assert.equal(first.has("modularity-incompatible-area"), false);
+  });
+}
 
 test("allows the group button handle to start sorting", () => {
   const harness = createHarness();
@@ -176,10 +216,7 @@ test("keeps empty module groups large enough to receive a drop", () => {
 test("normalizes empty compatibility metadata before dragging", () => {
   const harness = createHarness();
 
-  assert.equal(
-    harness.draggableModules[0].dataset.sidebarIncompability,
-    "[]",
-  );
+  assert.equal(harness.draggableModules[0].dataset.sidebarIncompability, "[]");
   assert.equal(
     harness.draggableModules[1].dataset.sidebarIncompability,
     '["main-content"]',
@@ -199,11 +236,9 @@ test("initializes when the native loading marker disappears", () => {
 test("initializes once when Ajax and marker removal both settle loading", () => {
   const harness = createHarness({ loading: true });
 
-  harness.documentEvents.get("ajaxComplete.mmgModuleGroups")(
-    null,
-    null,
-    { data: "action=get_post_modules&id=4" },
-  );
+  harness.documentEvents.get("ajaxComplete.mmgModuleGroups")(null, null, {
+    data: "action=get_post_modules&id=4",
+  });
   harness.loadingField.isConnected = false;
   harness.observers[0].callback();
 

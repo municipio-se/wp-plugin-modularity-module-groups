@@ -8,7 +8,7 @@ final class Adapter
 {
     private const ASSET_VERSIONS = [
         'css' => '0.1.6',
-        'js' => '0.1.8',
+        'js' => '0.1.9',
     ];
     private const UNSUPPORTED_SIDEBARS = ['left-sidebar', 'right-sidebar'];
 

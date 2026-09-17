@@ -2,8 +2,8 @@
 
 ## First stable release
 
-The planned first tag is 1.0.0 with independent SemVer. Keep the development
-header until reference acceptance is complete. Composer derives the release
+The prepared first candidate is 1.0.0 with independent SemVer. It remains
+unreleased pending explicit publication approval. Composer derives the release
 version from the tag; do not add a version field to composer.json.
 
 The stable contract covers documented grouping behavior, editor interactions and
@@ -21,10 +21,13 @@ versions.
 
 On 2026-09-14, the suite passed on PHP 8.3.33: 15 PHP tests / 37 assertions and
 9 Node tests. Composer validation and lint passed with existing diagnostics. The
-drag recovery fix still requires real editor acceptance: invalid drops, moving
-existing modules, drops outside the editor, restored controls, valid drops and
-save/reload. Confirm that upstream placement restrictions remain unchanged.
-Automated tests do not replace these checks.
+drag recovery fix received Nora stage acceptance on 2026-09-16 in Firefox on
+macOS: invalid drops, moving existing modules, drops outside the editor,
+restored controls, valid drops and save/reload. Upstream placement restrictions
+were preserved. Other module types and placement combinations are accepted
+support limitations, not verified cases. Runtime files remain identical to
+deployed 565006d; only the plugin header changes. The existing tests cover empty
+groups, absent group data, key preservation and save/reload round trips.
 
 ## Publication and rollback
 

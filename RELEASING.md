@@ -2,9 +2,10 @@
 
 ## First stable release
 
-The prepared first candidate is 1.0.0 with independent SemVer. It remains
-unreleased pending explicit publication approval. Composer derives the release
-version from the tag; do not add a version field to composer.json.
+Version
+[1.0.0](https://github.com/municipio-se/wp-plugin-modularity-module-groups/releases/tag/1.0.0)
+was published on 2026-09-17. Composer derives the version from the immutable Git
+tag; do not add a version field to composer.json.
 
 The stable contract covers documented grouping behavior, editor interactions and
 preserved row keys, postid, hidden, columnWidth and background values.
@@ -31,15 +32,26 @@ groups, absent group data, key preservation and save/reload round trips.
 
 ## Publication and rollback
 
-After acceptance, align the changelog and plugin header for 1.0.0. Keep the
-existing content-specific editor asset identifier unless its content changes.
-Run composer validate --strict, composer format, composer test and composer
-lint. Verify a clean Composer installation including editor assets and
+After acceptance, align the changelog and plugin header for the next version.
+Keep the existing content-specific editor asset identifier unless its content
+changes. Run composer validate --strict, composer format, composer test and
+composer lint. Verify a clean Composer installation including editor assets and
 autoloading.
 
-Obtain approval for the exact commit, then publish an annotated 1.0.0 tag and
+Obtain approval for the exact commit, then publish an annotated version tag and
 matching GitHub release. Verify Packagist indexing and source/dist references
 against the peeled tag commit. Tags are immutable; corrections get a new tag.
 Approved consumers require ^1.0 with a reviewed, committed lockfile and separate
 deployment approval. Rollback restores the previous code and lockfile; stored
 group metadata must remain readable and unchanged.
+
+## Publication evidence, 2026-09-17
+
+The published tag was verified against Composer source/dist references and a
+clean installation. Nora stage and production adopted 1.0.0 with WordPress
+6.9.4, PHP 8.3.6 and Municipio 6.43.3. Acceptance is limited to the documented
+reference cases and preserved configuration.
+
+This documentation was corrected after publication. The immutable 1.0.0 archive
+retains the original candidate wording. Never move the tag to include this
+documentation correction.

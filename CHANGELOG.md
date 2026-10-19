@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 — 2026-10-19
+
+Preserve content-area group backgrounds on the One Page template when global
+sidebar widgets are active. That template never renders side columns. Other
+templates and stored group metadata retain their existing behavior.
+
 ## 1.0.0 — 2026-09-17
 
 First stable release with independent semantic versioning. Preserves the group

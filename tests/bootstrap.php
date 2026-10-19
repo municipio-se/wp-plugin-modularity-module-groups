@@ -78,6 +78,8 @@ function checked(mixed $checked, mixed $current = true, bool $display = true): s
 
 class WP_Post
 {
+    public string $post_status = 'publish';
+
     public function __construct(
         public int $ID,
         public string $post_type,
@@ -91,5 +93,49 @@ final class TestModuleManager
 {
     public static array $available = [];
 }
+
+function is_page_template(string $template): bool
+{
+    return ($GLOBALS['testTemplate'] ?? '') === $template;
+}
+
+function is_active_sidebar(string $sidebar): bool
+{
+    return $GLOBALS['testSidebars'][$sidebar] ?? false;
+}
+
+function get_post_meta(int $postId, string $key, bool $single = false): mixed
+{
+    return $GLOBALS['testMeta'][$postId][$key] ?? [];
+}
+
+function is_user_logged_in(): bool
+{
+    return false;
+}
+
+function is_preview(): bool
+{
+    return false;
+}
+
+final class TestWp
+{
+    public static function getArchiveSlug(): bool
+    {
+        return false;
+    }
+}
+
+final class TestEditor
+{
+    public static function pageForPostTypeTranscribe(int $postId): int
+    {
+        return $postId;
+    }
+}
+
+class_alias(TestWp::class, 'Modularity\\Helper\\Wp');
+class_alias(TestEditor::class, 'Modularity\\Editor');
 
 require dirname(__DIR__) . '/vendor/autoload.php';

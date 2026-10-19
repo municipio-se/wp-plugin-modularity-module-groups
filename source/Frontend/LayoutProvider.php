@@ -28,7 +28,10 @@ final class LayoutProvider
 
         $layout = $this->currentStoredLayout();
         $plan = [];
-        $contentHasSidebars = is_active_sidebar('left-sidebar') || is_active_sidebar('right-sidebar');
+        // One-page never renders side columns, even when global widgets make them active.
+        $contentHasSidebars =
+            !is_page_template('one-page.blade.php')
+            && (is_active_sidebar('left-sidebar') || is_active_sidebar('right-sidebar'));
 
         foreach ($layout as $sidebar => $rows) {
             if (!is_array($rows) || !$this->normalizer->hasGroupData($rows)) {
